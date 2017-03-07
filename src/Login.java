@@ -51,12 +51,12 @@ public class Login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Password");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(160, 120, 60, 30);
+        jLabel1.setBounds(160, 120, 90, 30);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setText("Username");
         getContentPane().add(jLabel2);
-        jLabel2.setBounds(160, 50, 60, 30);
+        jLabel2.setBounds(160, 50, 90, 30);
         getContentPane().add(jtfUsername);
         jtfUsername.setBounds(110, 90, 170, 30);
         getContentPane().add(jpfPassword);
@@ -72,6 +72,7 @@ public class Login extends javax.swing.JFrame {
         jbSignIn.setBounds(280, 230, 90, 40);
 
         jbSignUp.setText("Sign Up");
+        jbSignUp.setBorder(null);
         jbSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbSignUpActionPerformed(evt);
@@ -98,15 +99,19 @@ public class Login extends javax.swing.JFrame {
         String username = jtfUsername.getText();
         String password = jpfPassword.getText();
         
-        try{
-            try (Statement statement = (Statement) FileKoneksi.GetConnection().createStatement()) {
+        if (!username.equals("") || !password.equals("")) {
+            try{
+                try (Statement statement = (Statement) FileKoneksi.GetConnection().createStatement()) {
                 statement.executeUpdate("insert into tb_akun(username,password) VALUES ('" + username + "','" + password + "');");
             } catch (SQLException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Selamat! Anda berhasil sign up!");
-        } catch (Exception t){
+            } catch (Exception t){
             JOptionPane.showMessageDialog(null, "Mohon maaf, ulangi lagi prosedur");
+            }
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Harap isi username atau password");
         }
         
         jtfUsername.setText("");
